@@ -1,0 +1,6 @@
+MDK-ARM/f4dis_test_simplegui/
+MDK-ARM/RTE/_f4dis_test_simplegui/
+*.uvguix.*
+*.lst
+*.dbgconf
+*.uvoptx
