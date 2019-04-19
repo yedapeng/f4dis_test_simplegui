@@ -503,6 +503,11 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_timebase_tim.c</FilePath>
             </File>
+            <File>
+              <FileName>bmp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ssd1306\bmp.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

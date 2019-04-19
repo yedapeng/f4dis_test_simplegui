@@ -217,6 +217,70 @@ char ssd1306_WriteChar(char ch, FontDef Font, SSD1306_COLOR color) {
     return ch;
 }
 
+char ssd1306_WriteBMP(BmpDef *bmp, SSD1306_COLOR color)
+{
+	uint32_t i, j;
+	uint8_t b;
+	uint8_t count;
+	
+	if (SSD1306_WIDTH <= (SSD1306.CurrentX + bmp->width) ||
+			SSD1306_HEIGHT <= (SSD1306.CurrentY + bmp->height))
+	{
+		// Not enough space on current line
+		return 0;
+	}
+		
+	for(i = 0; i < bmp->height/8; i++) 
+	{
+		//b = bmp->data[Font.FontHeight + i];
+		for(j = 0; j < bmp->width; j++) 
+		{
+			b = bmp->data[i*bmp->width + j];
+			
+			for (count = 0; count<8; count ++)
+			{
+				if ((b>>count)&0x01)
+				{
+					ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i*8+count), (SSD1306_COLOR) color);
+				}
+				else
+				{
+					ssd1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i*8+count), (SSD1306_COLOR)!color);
+				}
+			}
+		}
+	}
+		
+		
+		
+}
+
+void ssd1306_line(uint16_t star_x, uint16_t star_y, uint16_t len, uint8_t direction, uint8_t color)
+{
+	uint8_t count;
+	
+	ssd1306_SetCursor(star_x, star_y);
+	
+	if (direction)
+	{
+		for (count = 0; count < len; count ++)
+		{
+			ssd1306_DrawPixel(SSD1306.CurrentX+count, SSD1306.CurrentY, (SSD1306_COLOR) color);
+		}
+	
+	}
+	else
+	{
+		for (count = 0; count < len; count ++)
+		{
+			ssd1306_DrawPixel(SSD1306.CurrentX, SSD1306.CurrentY+count, (SSD1306_COLOR) color);
+		}
+	}
+	
+
+	
+}
+
 // Write full string to screenbuffer
 char ssd1306_WriteString(char* str, FontDef Font, SSD1306_COLOR color) {
     // Write until null-byte

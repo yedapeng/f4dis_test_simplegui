@@ -1,6 +1,7 @@
 #include "ssd1306.h"
 #include <string.h>
 #include "stdio.h"
+#include "bmp.h"
 
 void ssd1306_TestBorder(void) {
     ssd1306_Fill(Black);
@@ -78,22 +79,82 @@ void ssd1306_TestFPS() {
     ssd1306_UpdateScreen();
 }
 
-void ssd1306_TestAll() {
+void ssd1306_TestAll() 
+	{
+		BmpDef bat0;
+		BmpDef p0;
+		
+		//point_0
+		
+		
+		bat0.data = (uint8_t*)battery_5;
+		bat0.height = 16;
+		bat0.width = 32;
+		
+		p0.data = (uint8_t*)point_0;
+		p0.height = 32;
+		p0.width = 32;
+		
     ssd1306_Init();
-    ssd1306_TestFPS();
-    HAL_Delay(3000);
-    ssd1306_TestBorder();
-    ssd1306_TestFonts();
-	
-	
-	HAL_Delay(3000);
-	ssd1306_Fill(Black);
-	//ssd1306_UpdateScreen();
-	ssd1306_SetCursor(2, 0);
-	ssd1306_WriteString("1/6", Font_11x18, White);
-	//ssd1306_UpdateScreen();
-	
-	ssd1306_SetCursor(0, 16);
-	ssd1306_WriteString("12345678", Font_16x26, White);
-	ssd1306_UpdateScreen();
+		
+		ssd1306_Fill(White);
+		ssd1306_SetCursor(0, 10);
+		ssd1306_WriteString("Spidersens", Font_11x18, Black);
+		ssd1306_UpdateScreen();
+		
+		HAL_Delay(3000);
+    //ssd1306_TestFPS();
+    //HAL_Delay(3000);
+		ssd1306_Fill(Black);
+		ssd1306_SetCursor(1, 2);
+		ssd1306_WriteBMP(&bat0, White);
+		
+		
+		//p0
+		
+		ssd1306_SetCursor(35, 2);
+		ssd1306_WriteString("1/6", Font_11x18, White);
+		ssd1306_SetCursor(1, 23);
+		ssd1306_WriteString("ABCDEFGH", Font_11x18, White);
+		ssd1306_SetCursor(1, 44);
+		ssd1306_WriteString("12345678", Font_11x18, White);
+		
+		ssd1306_SetCursor(93, 2);
+		ssd1306_WriteString("99", Font_16x26, White);
+		
+		
+		ssd1306_line(0,0, 128, 1, White);
+		ssd1306_line(0,63, 128, 1, White);
+		
+		ssd1306_line(0,21, 90, 1, White);
+		ssd1306_line(0,42, 90, 1, White);
+		
+		ssd1306_line(90,30, 38, 1, White);
+		
+		ssd1306_line(0,0, 64, 0, White);
+		ssd1306_line(127,0, 64, 0, White);
+		ssd1306_line(90,0, 64, 0, White);
+		
+		
+		ssd1306_SetCursor(91, 31);
+		ssd1306_WriteBMP(&p0, White);
+		
+		ssd1306_UpdateScreen();
+		
+		HAL_Delay(30000);
+		
+//    ssd1306_TestBorder();
+//    ssd1306_TestFonts();
+//	
+//	
+//	HAL_Delay(3000);
+//	ssd1306_Fill(Black);
+//	//ssd1306_UpdateScreen();
+//	ssd1306_SetCursor(2, 0);
+//	ssd1306_WriteString("1/6", Font_11x18, White);
+//	//ssd1306_UpdateScreen();
+//	
+//	ssd1306_SetCursor(0, 16);
+//	ssd1306_WriteString("12345678", Font_16x26, White);
+//	ssd1306_UpdateScreen();
 }
